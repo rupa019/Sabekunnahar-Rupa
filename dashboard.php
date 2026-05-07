@@ -1,7 +1,6 @@
 <?php
 require_once 'config.php';
 
-// Login না থাকলে ফেরত পাঠাও
 if (!isset($_SESSION['user_id'])) {
     header("Location: index.php");
     exit();
@@ -70,11 +69,11 @@ $role = htmlspecialchars($_SESSION['user_role']);
 <body>
 <div class="card">
     <div class="icon">🐾</div>
-    <h2>স্বাগতম, <?= $name ?>!</h2>
-    <p>আপনি সফলভাবে MeoWoof এ লগইন করেছেন।</p>
+    <h2>Welcome, <?= $name ?>!</h2>
+    <p>You have successfully logged to meoWoof</p>
     <div class="badge">Role: <?= $role ?></div>
     <br>
-    <a href="logout.php" class="logout-btn">Logout করুন</a>
+    <a href="logout.php" class="logout-btn">Logout</a>
 </div>
 </body>
 </html>
