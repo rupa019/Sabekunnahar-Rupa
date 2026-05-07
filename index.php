@@ -1,7 +1,5 @@
 <?php
 require_once 'config.php';
-
-// Already logged in হলে dashboard এ redirect
 if (isset($_SESSION['user_id'])) {
     header("Location: dashboard.php");
     exit();
@@ -11,13 +9,12 @@ $tab = isset($_GET['tab']) ? $_GET['tab'] : 'login';
 $error = '';
 $success = '';
 
-// ===== LOGIN LOGIC =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $email    = trim(mysqli_real_escape_string($conn, $_POST['email']));
     $password = $_POST['password'];
 
     if (empty($email) || empty($password)) {
-        $error = 'ইমেইল এবং পাসওয়ার্ড দিন।';
+        $error = 'Enter Email & Password';
         $tab = 'login';
     } else {
         $sql = "SELECT * FROM users WHERE email = '$email' LIMIT 1";
@@ -32,17 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
                 header("Location: dashboard.php");
                 exit();
             } else {
-                $error = 'পাসওয়ার্ড ভুল হয়েছে।';
+                $error = 'Password incorrect';
                 $tab = 'login';
             }
         } else {
-            $error = 'এই ইমেইল দিয়ে কোনো অ্যাকাউন্ট নেই।';
+            $error = 'There is no account with this email';
             $tab = 'login';
         }
     }
 }
 
-// ===== REGISTER LOGIC =====
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $full_name = trim(mysqli_real_escape_string($conn, $_POST['full_name']));
     $email     = trim(mysqli_real_escape_string($conn, $_POST['email']));
@@ -53,29 +49,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
     $confirm   = $_POST['confirm_password'];
     $tab = 'register';
 
-    // Validation
     if (empty($full_name) || empty($email) || empty($phone) || empty($address) || empty($password)) {
-        $error = 'সব ঘর পূরণ করুন।';
+        $error = 'Fill in all the boxes';
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = 'সঠিক ইমেইল ঠিকানা দিন।';
+        $error = 'Please enter a valid email address';
     } elseif (strlen($password) < 6) {
-        $error = 'পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে।';
+        $error = 'Password must be at least six characters long';
     } elseif ($password !== $confirm) {
-        $error = 'পাসওয়ার্ড দুটো মিলছে না।';
+        $error = 'Password does not match';
     } else {
-        // Check duplicate email
+    
         $check = mysqli_query($conn, "SELECT id FROM users WHERE email = '$email'");
         if (mysqli_num_rows($check) > 0) {
-            $error = 'এই ইমেইল আগেই ব্যবহার হয়েছে।';
+            $error = 'This email has been used before';
         } else {
             $hashed = password_hash($password, PASSWORD_DEFAULT);
             $sql = "INSERT INTO users (full_name, email, phone, role, address, password) 
                     VALUES ('$full_name', '$email', '$phone', '$role', '$address', '$hashed')";
             if (mysqli_query($conn, $sql)) {
-                $success = 'অ্যাকাউন্ট তৈরি হয়েছে! এখন লগইন করুন।';
+                $success = 'Account created! Login now';
                 $tab = 'login';
             } else {
-                $error = 'একটি সমস্যা হয়েছে: ' . mysqli_error($conn);
+                $error = 'েThere was a problem : ' . mysqli_error($conn);
             }
         }
     }
@@ -106,7 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             max-width: 420px;
         }
 
-        /* HEADER */
         .brand {
             text-align: center;
             margin-bottom: 28px;
@@ -135,7 +129,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             margin-top: 4px;
         }
 
-        /* CARD */
         .card {
             background: #fff;
             border-radius: 20px;
@@ -143,7 +136,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             box-shadow: 0 4px 30px rgba(0,0,0,0.08);
         }
 
-        /* TABS */
         .tabs {
             display: flex;
             background: #f0f5f2;
@@ -170,7 +162,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             box-shadow: 0 3px 12px rgba(47,168,126,0.4);
         }
 
-        /* FORM */
         .field { margin-bottom: 18px; }
         .field-row { display: flex; gap: 14px; }
         .field-row .field { flex: 1; }
@@ -222,7 +213,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             padding: 4px;
         }
 
-        /* SELECT arrow */
         .select-wrap { position: relative; }
         .select-wrap select { padding-right: 36px; }
         .select-wrap::after {
@@ -235,8 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             pointer-events: none;
             font-size: 0.9rem;
         }
-
-        /* BUTTON */
+        
         .btn-primary {
             width: 100%;
             padding: 14px;
@@ -259,7 +248,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         }
         .btn-primary:active { transform: translateY(0); }
 
-        /* ALERTS */
         .alert {
             padding: 12px 16px;
             border-radius: 10px;
@@ -270,7 +258,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         .alert-error { background: #fef0f0; color: #c0392b; border: 1px solid #f5c6c6; }
         .alert-success { background: #edfaf4; color: #1a7a50; border: 1px solid #b2e8d0; }
 
-        /* FORM SECTIONS */
         .form-section { display: none; }
         .form-section.active { display: block; }
     </style>
@@ -284,23 +271,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         <p>Stray Animal Management System · Dhaka</p>
     </div>
 
-    <!-- Card -->
     <div class="card">
-        <!-- Tabs -->
+ 
         <div class="tabs">
             <button class="tab-btn <?= $tab === 'login' ? 'active' : '' ?>" onclick="switchTab('login')">Login</button>
             <button class="tab-btn <?= $tab === 'register' ? 'active' : '' ?>" onclick="switchTab('register')">Register</button>
         </div>
 
-        <!-- Alert Messages -->
         <?php if ($error): ?>
-            <div class="alert alert-error">⚠️ <?= htmlspecialchars($error) ?></div>
+            <div class="alert alert-error"> <?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
         <?php if ($success): ?>
-            <div class="alert alert-success">✅ <?= htmlspecialchars($success) ?></div>
+            <div class="alert alert-success"> <?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
-        <!-- ====== LOGIN FORM ====== -->
         <div class="form-section <?= $tab === 'login' ? 'active' : '' ?>" id="section-login">
             <form method="POST" action="">
                 <div class="field">
@@ -319,7 +303,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             </form>
         </div>
 
-        <!-- ====== REGISTER FORM ====== -->
         <div class="form-section <?= $tab === 'register' ? 'active' : '' ?>" id="section-register">
             <form method="POST" action="">
                 <div class="field">
@@ -364,14 +347,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                         <label>Password</label>
                         <div class="pass-wrap">
                             <input type="password" name="password" id="reg-pass" placeholder="Min 6 chars" required>
-                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass', this)">👁</button>
+                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass', this)"></button>
                         </div>
                     </div>
                     <div class="field">
                         <label>Confirm Password</label>
                         <div class="pass-wrap">
                             <input type="password" name="confirm_password" id="reg-pass2" placeholder="Repeat password" required>
-                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass2', this)">👁</button>
+                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass2', this)"></button>
                         </div>
                     </div>
                 </div>
@@ -394,10 +377,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         const input = document.getElementById(id);
         if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '🙈';
+            btn.textContent = '-';
         } else {
             input.type = 'password';
-            btn.textContent = '👁';
+            btn.textContent = '-';
         }
     }
 </script>
