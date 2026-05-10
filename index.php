@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 $success = 'Account created! Login now';
                 $tab = 'login';
             } else {
-                $error = 'েThere was a problem : ' . mysqli_error($conn);
+                $error = 'There was a problem : ' . mysqli_error($conn);
             }
         }
     }
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         .select-wrap { position: relative; }
         .select-wrap select { padding-right: 36px; }
         .select-wrap::after {
-            content: "▾";
+            content: "*";
             position: absolute;
             right: 13px;
             top: 50%;
@@ -266,7 +266,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
 <div class="wrapper">
     <!-- Brand Header -->
     <div class="brand">
-        <div class="brand-icon">🐾</div>
+        <div class="brand-icon">MeoWoof</div>
         <h1>MeoWoof</h1>
         <p>Stray Animal Management System · Dhaka</p>
     </div>
@@ -289,14 +289,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
             <form method="POST" action="">
                 <div class="field">
                     <label>Email Address</label>
-                    <input type="email" name="email" placeholder="you@example.com" required
+                    <input type="email" name="email" placeholder="you@gmail.com" required
                            value="<?= isset($_POST['email']) && isset($_POST['login']) ? htmlspecialchars($_POST['email']) : '' ?>">
                 </div>
                 <div class="field">
                     <label>Password</label>
                     <div class="pass-wrap">
                         <input type="password" name="password" id="login-pass" placeholder="••••••••" required>
-                        <button type="button" class="eye-btn" onclick="togglePass('login-pass', this)">👁</button>
+                        <button type="button" class="eye-btn" onclick="togglePass('login-pass', this)">show</button>
                     </div>
                 </div>
                 <button type="submit" name="login" class="btn-primary">Login</button>
@@ -314,12 +314,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                 <div class="field-row">
                     <div class="field">
                         <label>Email</label>
-                        <input type="email" name="email" placeholder="you@example.com" required
+                        <input type="email" name="email" placeholder="you@gmail.com" required
                                value="<?= isset($_POST['email']) && isset($_POST['register']) ? htmlspecialchars($_POST['email']) : '' ?>">
                     </div>
                     <div class="field">
                         <label>Phone</label>
-                        <input type="tel" name="phone" placeholder="01X-XXXXXXX" required
+                        <input type="tel" name="phone" placeholder="01800000000" required
                                value="<?= isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : '' ?>">
                     </div>
                 </div>
@@ -347,14 +347,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
                         <label>Password</label>
                         <div class="pass-wrap">
                             <input type="password" name="password" id="reg-pass" placeholder="Min 6 chars" required>
-                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass', this)"></button>
+                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass', this)">show</button>
                         </div>
                     </div>
                     <div class="field">
                         <label>Confirm Password</label>
                         <div class="pass-wrap">
                             <input type="password" name="confirm_password" id="reg-pass2" placeholder="Repeat password" required>
-                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass2', this)"></button>
+                            <button type="button" class="eye-btn" onclick="togglePass('reg-pass2', this)">show</button>
                         </div>
                     </div>
                 </div>
@@ -377,10 +377,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['register'])) {
         const input = document.getElementById(id);
         if (input.type === 'password') {
             input.type = 'text';
-            btn.textContent = '-';
+            btn.textContent = 'show';
         } else {
             input.type = 'password';
-            btn.textContent = '-';
+            btn.textContent = 'hide';
         }
     }
 </script>
