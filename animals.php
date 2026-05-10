@@ -59,7 +59,6 @@ $animals_result = mysqli_query($conn,
 
 $total = mysqli_num_rows($animals_result);
 ?>
-<!DOCTYPE html>
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
@@ -68,17 +67,6 @@ $total = mysqli_num_rows($animals_result);
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-    --green:   #2fa87e;
-    --green-d: #1e8a64;
-    --green-l: #edf7f3;
-    --bg:      #eef4f0;
-    --card:    #ffffff;
-    --text:    #1e3a2f;
-    --muted:   #6b8c7e;
-    --border:  #d8ede5;
-    --red:     #e05252;
-    --yellow:  #f0a500;
-    --blue:    #4a90d9;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body {
