@@ -68,9 +68,9 @@ $role = htmlspecialchars($_SESSION['user_role']);
 </head>
 <body>
 <div class="card">
-    <div class="icon">🐾</div>
+    <div class="icon">*</div>
     <h2>Welcome, <?= $name ?>!</h2>
-    <p>You have successfully logged to meoWoof</p>
+    <p>You have successfully logged into meoWoof</p>
     <div class="badge">Role: <?= $role ?></div>
     <br>
     <a href="logout.php" class="logout-btn">Logout</a>
